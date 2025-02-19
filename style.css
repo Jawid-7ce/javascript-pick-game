@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  height: 100vh;
+  color: #eee;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔹 LAYOUT */
+main {
+  position: relative;
+  width: 100rem;
+  height: 60rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 🔹 PLAYER SECTIONS */
+.player {
+  flex: 50%;
+  padding: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+}
+
+/* 🔹 TEXT STYLES */
+.name {
+  font-size: 4.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.score {
+  font-size: 7rem;
+  font-weight: 500;
+  color: #00eaff;
+  margin-bottom: auto;
+  text-shadow: 0 0 15px #00eaff;
+}
+
+/* 🔹 ACTIVE PLAYER HIGHLIGHT */
+.player--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.player--active .name {
+  font-weight: 600;
+  color: #ffdd57;
+}
+
+.player--active .score {
+  font-weight: 600;
+}
+
+/* 🔹 CURRENT SCORE BOX */
+.current {
+  background: rgba(0, 234, 255, 0.2);
+  border-radius: 12px;
+  color: #fff;
+  width: 75%;
+  padding: 2.5rem;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.current-label {
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: #ddd;
+}
+
+.current-score {
+  font-size: 4rem;
+}
+
+/* 🔹 BUTTON STYLES */
+.btn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #00eaff, #0077b6);
+  padding: 1rem 3rem;
+  border-radius: 50rem;
+  box-shadow: 0px 5px 15px rgba(0, 234, 255, 0.3);
+}
+
+.btn:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0px 10px 30px rgba(0, 234, 255, 0.6);
+}
+
+.btn:active {
+  transform: translateX(-50%) scale(0.95);
+  box-shadow: 0px 3px 10px rgba(0, 234, 255, 0.4);
+}
+
+/* 🔹 BUTTON POSITIONS */
+.btn--new {
+  top: 4rem;
+}
+
+.btn--roll {
+  top: 38rem;
+}
+
+.btn--hold {
+  top: 45rem;
+}
+
+/* 🔹 DICE */
+.dice {
+  position: absolute;
+  left: 50%;
+  top: 18rem;
+  transform: translateX(-50%);
+  height: 12rem;
+  filter: drop-shadow(0px 8px 20px rgba(255, 255, 255, 0.3));
+}
+
+/* 🔹 WINNER PLAYER */
+.player--winner {
+  background: linear-gradient(135deg, #ffdd57, #ff8800);
+}
+
+.player--winner .name {
+  font-weight: 700;
+  color: #111;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+}
+
+/* 🔹 WINNER MESSAGE */
+.winner-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffdd57;
+  text-shadow: 0 0 20px rgba(255, 221, 87, 0.8);
+}
+
+/* 🔹 HIDE ELEMENT */
+.hidden {
+  display: none;
+}
