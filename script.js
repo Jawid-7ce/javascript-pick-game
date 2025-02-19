@@ -1,6 +1,6 @@
 'use strict';
 
-//  Selecting elements
+// 🎯 Selecting elements
 const score0El = document.querySelector('#score--0');
 const score1El = document.getElementById('score--1');
 const current0El = document.getElementById('current--0');
@@ -11,13 +11,16 @@ const diceEl = document.querySelector('.dice');
 const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
+let countdown;
+let timeLeft = 10;
 
-// Starting conditions
-let scores, currrentScore, playing, activePlayer;
+let scores, currentScore, playing, activePlayer, timer;
+
+// 🔄 Initialize the Game
 function init() {
   scores = [0, 0];
   playing = true;
-  currrentScore = 0;
+  currentScore = 0;
   activePlayer = 0;
 
   current0El.textContent = 0;
@@ -30,66 +33,94 @@ function init() {
   current1Player.classList.remove('player--winner');
   current0Player.classList.add('player--active');
   current1Player.classList.remove('player--active');
+
+  resetTimer(); // ⏳ Start turn timer
 }
 
 init();
 
+// 🔄 Switch Player Function (Now Resets Timer)
 const changePlayer = () => {
   document.getElementById(`current--${activePlayer}`).textContent = 0;
-  // current0Player.classList.remove('player--active');
-  // current1Player.classList.add('player--active');
   activePlayer = activePlayer === 0 ? 1 : 0;
-  currrentScore = 0;
+  currentScore = 0;
   current0Player.classList.toggle('player--active');
   current1Player.classList.toggle('player--active');
+  resetTimer(); // ⏳ Reset timer for the new player
 };
 
-// Rolling dice functionality
+// 🎲 Roll Dice Function
 btnRoll.addEventListener('click', function () {
   if (playing) {
-    // Generating a random dice roll
+    resetTimer(); // ⏳ Reset timer after rolling
+
+    // 🎲 Generate a random dice roll
     const dice = Math.floor(Math.random() * 6) + 1;
-    //   Display the dice
+
+    // 🖼️ Display the dice
     diceEl.classList.remove('hidden');
     diceEl.src = `imgs/dice-${dice}.png`;
 
-    //   Check for rolled 1
-    if (dice != 1) {
-      // add dice to the current score
-      currrentScore += dice;
-      document.getElementById(`current--${activePlayer}`).textContent =
-        currrentScore;
-    }
-    //   switch to next player
-    else {
+    // ❌ If dice is 1 → Lose turn
+    if (dice !== 1) {
+      currentScore += dice;
+      document.getElementById(`current--${activePlayer}`).textContent = currentScore;
+    } else {
       changePlayer();
     }
   }
 });
 
+// 📥 Hold Score Function
 btnHold.addEventListener('click', function () {
   if (playing) {
-    // add current score to active player's score
-    scores[activePlayer] += currrentScore;
-    document.getElementById(`score--${activePlayer}`).textContent =
-      scores[activePlayer];
+    resetTimer(); // ⏳ Reset timer after holding
 
-    // check if current player's score is >= 100
+    // ➕ Add current score to active player's score
+    scores[activePlayer] += currentScore;
+    document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
+
+    // 🏆 Check for winner
     if (scores[activePlayer] >= 100) {
-      // finish the game
       playing = false;
       diceEl.classList.add('hidden');
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.add('player--winner');
-      document
-        .querySelector(`.player--${activePlayer}`)
-        .classList.remove('player--active');
+
+      document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+      document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+      
+      clearTimeout(timer); // ❌ Stop timeout after winning
     } else {
-      //   switch to next player
       changePlayer();
     }
   }
 });
 
+// 🔄 New Game Button Resets Everything
 btnNew.addEventListener('click', init);
+
+// ⏳ **Timeout Feature – 10 Seconds Per Turn**
+function resetTimer() {
+  clearTimeout(timer); // Clear previous timer
+  clearInterval(countdown); // Clear previous countdown interval
+
+  timeLeft = 10; // Reset time
+  document.getElementById(`timer--0`).textContent = `⏳ 10s`;
+  document.getElementById(`timer--1`).textContent = `⏳ 10s`;
+
+  countdown = setInterval(() => {
+    timeLeft--;
+    document.getElementById(`timer--${activePlayer}`).textContent = `⏳ ${timeLeft}s`;
+
+    if (timeLeft === 0) {
+      clearInterval(countdown);
+      changePlayer(); // ⏳ Switch player when time runs out
+    }
+  }, 1000); // Update every second
+
+  // Main timeout for auto-switching after 10s
+  timer = setTimeout(() => {
+    if (playing) {
+      changePlayer();
+    }
+  }, 10000);
+}

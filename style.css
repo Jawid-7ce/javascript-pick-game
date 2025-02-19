@@ -76,6 +76,20 @@ main {
   font-weight: 600;
 }
 
+.timer {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff5f6d;
+  margin-top: 1rem;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+
 /* 🔹 CURRENT SCORE BOX */
 .current {
   background: rgba(0, 234, 255, 0.2);
